@@ -1,1 +1,88 @@
-<p>painelpedido-lista works!</p>
+<main>
+  <p-card class="card-adjust mt-5 mx-3">
+    <h4>Pedidos</h4>
+    <div class="flex justify-content-between mb-2">
+      <div class="flex justify-content-start">
+        <div>
+          <button pButton pRipple type="button" class="p-button-raised p-button-primary" icon="pi pi-refresh"
+          pTooltip="Atualizar" tooltipPosition="top" (click)="refresh()">
+
+          </button>
+        </div>
+
+      </div>
+      <div>
+        <p-splitButton styleClass="p-button-primary"
+         #ua label="Opções" icon="pi pi-cog" (onClick)="ua.onDropdownButtonClick(null)"  [model]="items"></p-splitButton>
+      </div>
+
+    </div>
+    <p-table #tabela styleClass="p-datatable-striped p-datatable-gridlines" [columns]="cols" [value]="pedidos"
+    [rowsPerPageOptions]="rowsPerPageTable" [rowHover]="true" [showCurrentPageReport]="true"
+     selectionMode="single" [(selection)]="selectedAtendimento"
+    [reorderableColumns]="true"  [lazy]="true" [totalRecords]="totalRegistros"
+    responsiveLayout="scroll">
+
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th class="btnAcoes">&nbsp;</th>
+        <th *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}">
+          {{cols.header}}
+        </th>
+        <th style="min-width: 150px;">Status</th>
+      </tr>
+
+      <tr>
+
+        <th class="btnAcoes">&nbsp;</th>
+        <th *ngFor="let cols of columns; let i = index" [ngStyle]="{'min-width': cols.width}">
+
+          <form #formFiltro="ngForm" autocomplete="off">
+            <div *ngIf="cols.type !== 'date'" class="flex p-2" [ngStyle]="{'min-width': cols.width}">
+              <input pInputText class="p-text-nowrap p-text-truncate mr-2 w-full" placeholder="Pesquisar" type="text"
+                name="pesquisa{{i}}" [(ngModel)]="cols.qty" validateQuantity #qtyInput
+                 pTooltip="Pesquisa nessa coluna" tooltipPosition="top">
+            </div>
+
+
+
+          </form>
+        </th>
+        <th>
+        </th>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-pedidos let-columns="columns" let-rowData let-expanded="expanded">
+      <tr [pSelectableRow]="rowData">
+        <td class="btnAcoes">
+          <button pButton pRipple type="button" class="p-button-text p-button-primary ml-1" icon="pi pi-pencil"
+            pTooltip="Ven" tooltipPosition="top"
+            ></button>
+
+          <button pButton class="p-button-text p-button-help ml-2" icon="pi pi-search" pTooltip="Pedido"
+            tooltipPosition="top" ></button>
+
+          <button pButton pRipple type="button" class="p-button-text p-button-warning p-button-info ml-2"
+            icon="pi pi-print" pTooltip="Impressão" tooltipPosition="top"
+           ></button>
+        </td>
+        <td *ngFor="let cols of columns" [ngStyle]="{'min-width': cols.width}"
+        pTooltip="{{rowData[cols.field] &&  cols.data ? (rowData[cols.field] | date: 'dd/MM/yyyy H:mm') :  rowData[cols.field]}}"
+        tooltipPosition="top">
+        <span class="p-column-title">{{cols.header}}:</span>
+        {{ cols.data ? (rowData[cols.field]| date : cols.format) : rowData[cols.field]}}
+      </td>
+      <td>
+        {{pedidos.status ? 'Ativo' : 'Inativo'}}
+      </td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+
+  </p-card>
+
+</main>

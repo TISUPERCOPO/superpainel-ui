@@ -1,10 +1,15 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
+import { AppRoutingModule } from './app-routing.module';
 import { PrimengModule } from './primeng.module';
+import { CoreModule } from './core/core.module';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -14,8 +19,13 @@ import { PrimengModule } from './primeng.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    PrimengModule
+    PrimengModule,
+    NgxSpinnerModule,
+    CommonModule,
+    CoreModule,
+    HttpClientModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })
