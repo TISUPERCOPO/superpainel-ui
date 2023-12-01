@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { CommonModule } from '@angular/common';
+import { LoginModule } from './pages/login/login.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CommonModule } from '@angular/common';
     NgxSpinnerModule,
     CommonModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
+    LoginModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

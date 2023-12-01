@@ -7,8 +7,12 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { FormsModule } from "@angular/forms";
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CommonModule } from "@angular/common";
-
-
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { SidebarModule } from 'primeng/sidebar';
+import { AccordionModule } from 'primeng/accordion';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -21,7 +25,13 @@ import { CommonModule } from "@angular/common";
     TableModule,
     SplitButtonModule,
     FormsModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    AvatarModule,
+    AvatarGroupModule,
+    SidebarModule,
+    AccordionModule,
+    PasswordModule,
+    InputTextModule
   ]
 
 

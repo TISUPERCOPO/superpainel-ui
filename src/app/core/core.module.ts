@@ -3,12 +3,17 @@ import { PrimengModule } from "../primeng.module";
 import { RouterModule } from "@angular/router";
 import { PainelModule } from "../pages/painel/painel.module";
 import { PainelService } from "../pages/painel/painel.service";
+import { NavbarComponent } from './layout/navbar/navbar/navbar.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NavbarComponent,
+    LayoutComponent
+  ],
   imports:[
     PrimengModule,
     RouterModule
@@ -18,6 +23,7 @@ import { PainelService } from "../pages/painel/painel.service";
 
   ],
   exports:[
+    LayoutComponent
   ]
 
 

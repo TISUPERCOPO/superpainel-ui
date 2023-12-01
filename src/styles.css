@@ -918,7 +918,7 @@ p-inputnumber,
 }
 
 .p-button.p-button-text {
-  color: #1abc9c;
+  color: #eeeeee;
 }
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
@@ -1000,13 +1000,13 @@ p-inputnumber,
 .p-buttonset.p-button-secondary>.p-button.p-button-text,
 .p-splitbutton.p-button-secondary>.p-button.p-button-text {
   background-color: transparent;
-  color: #1abc9c;
+  color: #f06f06;
   border-color: transparent;
 }
 
 .p-radiobutton .p-radiobutton-box.p-highlight {
-  border-color: #1abc9c;
-  background: #1abc9c;
+  border-color: #bc681a;
+  background: #bc681a;
 }
 
 .p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
@@ -1045,7 +1045,7 @@ p-inputnumber,
 
 .p-tabview .p-tabview-nav-btn.p-link {
   background: #ffffff;
-  color: #1abc9c;
+  color: #bc891a;
   width: 3rem;
   box-shadow: none;
 }

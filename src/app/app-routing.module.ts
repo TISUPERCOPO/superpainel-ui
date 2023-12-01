@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'paineis', pathMatch: 'full' },
   {
     path: 'paineis',
     loadChildren: () => import('./pages/painel/painel.module').then (p => p.PainelModule)

@@ -1,0 +1,59 @@
+<header>
+  <img [src]="logo" height="45" alt="Logo Super Copo" routerLink="/">
+  <p-avatarGroup class="perfil">
+    <p-avatar icon="pi pi-user" styleClass="p-mr-2" pTooltip="Perfil" tooltipPosition="left"
+      [style]="{ 'background-color': '#f97316', color: '#ffffff' }"  shape="circle">
+    </p-avatar>
+  </p-avatarGroup>
+
+</header>
+
+<div class="menu" (click)="menu = true" pTooltip="Menu" tooltipPosition="bottom">
+  <i class="pi pi-bars text-black-alpha-90" style="font-size: 18px; color: white;"></i>
+</div>
+
+<div class="home" routerLink="/" pTooltip="Início" tooltipPosition="bottom">
+  <i class="pi pi-home text-black-alpha-90" style="font-size: 20px; color: white;"></i>
+</div>
+
+<p-sidebar [(visible)]="menu" [baseZIndex]="10000">
+<br>
+<br>
+
+<div class="div-sidebar">
+  <button pButton type="button" class="p-button-text btn-sidebar-width alias" tooltipPosition="right">
+    <i style="color: rgb(133, 130, 130)" class="pi pi-external-link"></i>
+    <span  class="ml-2 p-text-nowrap p-text-truncate">
+      </span>
+  </button>
+</div>
+
+<p-accordion styleClass="mt-3">
+  <button pButton type="button" class="ui-button-rounded btn-menu" routerLinkActive="ativo"
+      icon="fas fa-clipboard-check" (click)="menu = false" label="Pedido"
+      routerLink="/paineis"></button>
+
+</p-accordion>
+
+<div class="logo">
+  <a class="cursor-pointer" href="https://labsdev.com.br" target="_blank">
+    <img [src]="logoDescricao" height="45" alt="Logo LabsDev"></a>
+</div>
+
+<div>
+  <h1 class="versao">versão: </h1>
+</div>
+
+</p-sidebar>
+
+<p-overlayPanel #userdetails>
+  <div class="logado">
+    <span>Logado:</span>
+
+    <br />
+  </div>
+  <button pButton class="p-button-text btnSenha" icon="fas fa-lock" label="Alterar Senha"
+    routerLink="/alterarsenha"></button>
+  <button pButton class="p-button-text btnSenha" icon="pi pi-chevron-right" label="Sair"
+   ></button>
+</p-overlayPanel>
