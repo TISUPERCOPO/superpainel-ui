@@ -1,11 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MenuItem, PrimeNGConfig } from 'primeng/api';
+import { FilterService, MenuItem, PrimeNGConfig } from 'primeng/api';
 import { Paginator } from 'primeng/paginator';
 import { Table } from 'primeng/table';
 import { PainelService } from '../painel.service';
 import { Pedido } from 'src/app/core/models/pedidos.model';
+import { FiltrosPedido } from 'src/app/core/models/filtro.model';
+import { FiltroPedidoService } from 'src/app/core/filtro/filtro-pedido.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-painelpedido-lista',
@@ -23,18 +26,17 @@ export class PainelpedidoListaComponent implements OnInit {
   pedidos = new  Array<Pedido>()
 
   rowsPerPageTable: number[] = [10, 25, 50, 100, 200];
-  //rangeDates: Date[];
-  atendimentos = [];
+  rangeDates: Date[];
   cols = [];
   colsItens = [];
   sinal = true;
-  //dateRangeStart: string;
-  //dateRangeEnd: string;
-  //restoringFilter: boolean;
+  dateRangeStart: string;
+  dateRangeEnd: string;
+  restoringFilter: boolean;
   status = 'Ativo';
   messageDrop = 'Nenhum resultado encontrado...';
   valorTooltip = 'Inativos';
- // displayExames: boolean;
+  displayExames: boolean;
   messagePageReport = 'Mostrando {first} a {last} de {totalRecords} registros';
   items: MenuItem[];
   selectedAtendimento: any;
@@ -43,10 +45,10 @@ export class PainelpedidoListaComponent implements OnInit {
   totalRegistros = 0;
   totalPages = 0;
   first = 1;
-  //filtro = new FiltrosAtendimentos();
+  filtro = new FiltrosPedido();
   timeout: any;
-  datanascde: string;
-  datanascate: string;
+  datapedidode: string;
+  datapedidoate: string;
   datalancamentode: string;
   datalancamentoate: string;
   blockBtnFilter = false;
@@ -59,6 +61,8 @@ export class PainelpedidoListaComponent implements OnInit {
     //public auth: AuthService,
     private conf: PrimeNGConfig,
     private spinner: NgxSpinnerService,
+    private filtroPedido: FiltroPedidoService,
+    private filterService: FilterService
   ) { }
   ngOnInit(): void {
     //this.filtroDefault();
@@ -67,7 +71,7 @@ export class PainelpedidoListaComponent implements OnInit {
 
     this.items = [
       {
-        label: 'Ativo / Inativo',
+        label: 'Faturado / Pendente',
         icon: 'pi pi-sort-alt',
         command: () => {
           this.AlternarList();
@@ -78,24 +82,21 @@ export class PainelpedidoListaComponent implements OnInit {
 
 
     this.cols = [
-      { field: 'id', header: 'Codigo', width: '50px', type: 'numeric', key: 1 },
-      { field: 'pedido', header: 'Pedido', width: '150px', type: 'numeric', key: 2 },
-      { field: 'name', header: 'Cliente', width: '150px', type: 'text', key: 3 },
-      { field: 'datapedido', header: 'Data Pedido', width: '150px', data: true, format: 'dd/MM/yyyy H:mm', type: 'date', key: 4 },
-      { field: 'valor', header: 'Valor Mercadoria', width: '150px', type: 'numeric', key: 5 },
+      { field: 'pedido', header: 'Pedido', width: '50px', type: 'numeric', key: 1 },
+      { field: 'datapedido', header: 'Data Pedido', width: '150px', data: true, format: 'dd/MM/yyyy H:mm', type: 'date', key: 2 },
+      { field: 'transportadora', header: 'Transportadora', width: '150px', type: 'text', key: 3},
+      { field: 'valor', header: 'Valor Mercadoria', width: '150px', currency: true, format: `BRL`,  type: 'numeric', key: 4 },
+      { field: 'frete', header: 'Frete', width: '150px',currency: true, format: `BRL`, type: 'numeric', key: 5 },
+      { field: 'statuspedido', header: 'Status Pedido', width: '150px', type: 'text', key: 6 },
+      { field: 'plataforma', header: 'Plataforma', width: '150px', type: 'text', key: 7},
  /*      { field: 'status', header: 'Status', width: '150px', type: 'text', key: 6 } */
-
-    ]/* ;
+] ;
     this.colsItens = [
-      { field: 'acesso', header: 'Acesso' },
-      { field: 'descricaoexame', header: 'Exame' },
-      { field: 'descricaoconvenio', header: 'Convênio' },
-      { field: 'dataatendimento', header: 'Data Atendimento', data: true, format: `dd/MM/yyyy` },
-      { field: 'preco', header: 'Preço', currency: true, format: `BRL` },
-      { field: 'desconto', header: 'Desconto', currency: true, format: `BRL` },
-      { field: 'total', header: 'Total', currency: true, format: `BRL` }
-    ]; */
-/*
+      { field: 'datapedido', header: 'Data Atendimento', data: true, format: `dd/MM/yyyy` },
+      { field: 'valor', header: 'Valor Mercadoria', currency: true, format: `BRL` },
+      { field: 'frete', header: 'Frete', currency: true, format: `BRL` },
+    ];
+
     this.filterService.register('customCreatedDateFilter', (value: string, filter) => {
 
       if (this.dateRangeStart === value && this.dateRangeEnd === undefined) {
@@ -115,7 +116,7 @@ export class PainelpedidoListaComponent implements OnInit {
       }
 
       return false;
-    }); */
+    });
 
     //  this.carregarAtendimentos();
     // this.carregarUsers();
@@ -145,10 +146,10 @@ export class PainelpedidoListaComponent implements OnInit {
     this.spinner.show()
     const valor = this.sinal ? '/status' : '/'
     if (this.sinal === true) {
-      this.valorTooltip = 'Ativos'
+      this.valorTooltip = 'Faturado'
       this.sinal = false
     } else {
-      this.valorTooltip = 'Inativos'
+      this.valorTooltip = 'Pendente'
       this.sinal = true
     }
 
@@ -166,6 +167,98 @@ export class PainelpedidoListaComponent implements OnInit {
 
 
   refresh(){
+    this.carregarPedidos();
+  }
+
+
+  searchData(tipo: string) {
+    if (tipo === 'datapedidode') {
+      if (this.datapedidode && this.datapedidode.length === 10) {
+        const dia = this.datapedidode.substring(0, 2);
+        const mes = this.datapedidode.substring(3, 5);
+        const ano = this.datapedidode.substring(6, 10);
+        this.filtro.datapedidode = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datapedidode = '';
+      }
+    }
+    if (tipo === 'datapedidoate') {
+      if (this.datapedidoate && this.datapedidoate.length === 10) {
+        const dia = this.datapedidoate.substring(0, 2);
+        const mes = this.datapedidoate.substring(3, 5);
+        const ano = this.datapedidoate.substring(6, 10);
+        this.filtro.datapedidoate = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datapedidoate = '';
+      }
+    }
+    /* if (tipo === 'datalancamentode') {
+      if (this.datalancamentode && this.datalancamentode.length === 10) {
+        const dia = this.datalancamentode.substring(0, 2);
+        const mes = this.datalancamentode.substring(3, 5);
+        const ano = this.datalancamentode.substring(6, 10);
+        this.filtro.datalancamentode = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datalancamentode = '';
+      }
+    }
+    if (tipo === 'datalancamentoate') {
+      if (this.datalancamentoate && this.datalancamentoate.length === 10) {
+        const dia = this.datalancamentoate.substring(0, 2);
+        const mes = this.datalancamentoate.substring(3, 5);
+        const ano = this.datalancamentoate.substring(6, 10);
+        this.filtro.datalancamentoate = ano + '-' + mes + '-' + dia;
+      } else {
+        this.filtro.datalancamentoate = '';
+      }
+    } */
+    if (this.timeout) { clearTimeout(this.timeout); }
+    this.timeout = setTimeout(() => {
+      this.carregarPedidos();
+    }, 800);
+  }
+
+  search(value: any) {
+    if (this.timeout) { clearTimeout(this.timeout); }
+    this.timeout = setTimeout(() => {
+      this.applySearch(value);
+    }, 800);
+  }
+
+  applySearch(value: any) {
+    this.blockBtnFilter = true;
+    if (
+      value.qty === null ||
+      value.qty === undefined
+    ) {
+      this.btnBlock();
+    } else {
+      this.filtroPedido.filtro(value, this.filtro).then((obj) => {
+        this.filtro = obj;
+        this.carregarPedidos();
+        this.btnBlock();
+      }).catch((erro) => {
+        this.spinner.hide();
+        this.btnBlock();
+      });
+    }
+  }
+
+  btnBlock() {
+    setTimeout(() => {
+      this.blockBtnFilter = false;
+    }, 680);
+  }
+
+  limparData(tipo: string) {
+    if (tipo === 'dataNasc') {
+      this.filtro.datapedidode = '';
+      this.filtro.datapedidoate = '';
+      this.datapedidode = '';
+      this.datapedidoate = '';
+    }
+
+
     this.carregarPedidos();
   }
 

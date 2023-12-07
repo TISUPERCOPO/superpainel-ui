@@ -9,8 +9,8 @@ export class NavbarComponent {
 
 
 
-  logo: any = '/assets/images/background.png';
-  logoDescricao: any = '/assets/images/background.png';
+  logo: any = '/assets/images/Logo original.svg';
+  logoDescricao: any = '/assets/images/Logo original.svg';
   menu;
 
 }
