@@ -1,7 +1,8 @@
 import { PrimengModule } from 'src/app/primeng.module';
 import { NgModule } from "@angular/core";
 import { LoginComponent } from './login/login.component';
-import { LoginRoutingModule } from './login/login.routing';
+import { LoginRoutingModule } from './login.routing';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -13,7 +14,10 @@ import { LoginRoutingModule } from './login/login.routing';
   ],
   imports: [
     PrimengModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+  ],
+  exports:[
+
   ]
 
 })

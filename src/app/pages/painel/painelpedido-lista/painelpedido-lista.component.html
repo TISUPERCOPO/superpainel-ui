@@ -107,7 +107,7 @@
 
               <button pButton pRipple type="button"
                 class="p-button-text p-button-warning p-button-info ml-2"
-                icon="pi pi-print" pTooltip="Impressão" tooltipPosition="top"></button>
+                icon="pi pi-print" pTooltip="Impressão" tooltipPosition="top" (click)="gerarPedidos(pedidos)"></button>
             </td>
             <td *ngFor="let cols of columns"
               [ngStyle]="{'min-width': cols.width}"

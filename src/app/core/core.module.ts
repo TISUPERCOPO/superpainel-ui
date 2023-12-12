@@ -5,6 +5,9 @@ import { PainelModule } from "../pages/painel/painel.module";
 import { PainelService } from "../pages/painel/painel.service";
 import { NavbarComponent } from './layout/navbar/navbar/navbar.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AuthService } from "../pages/login/auth.service";
+import { MessageService } from "primeng/api";
+import { SharedModule } from "../shared/shared.module";
 
 
 
@@ -16,14 +19,17 @@ import { LayoutComponent } from './layout/layout.component';
   ],
   imports:[
     PrimengModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   providers: [
-    PainelService
+    PainelService,
+    AuthService,
+    MessageService
 
   ],
   exports:[
-    LayoutComponent
+    LayoutComponent,
   ]
 
 

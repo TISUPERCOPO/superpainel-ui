@@ -16,12 +16,12 @@
         </div>
 
         <div class="md:w-30rem widthLogin">
-          <form #formLogin="ngForm" (keyup.enter)="EnterSubmit($event, formLogin, email.value, senha.value)">
+          <form #formLogin="ngForm" (keyup.enter)="EnterSubmit($event, formLogin, login.value, senha.value)">
 
             <div class="col-12">
-              <h6>E-mail</h6>
-              <input id="email" name="email" type="email" placeholder="Endereço de Email" pInputText [required]="true"
-                ngModel #email="ngModel" class="w-full">
+              <h6>Login</h6>
+              <input id="login" name="login" type="text" placeholder="Informe seu Login" pInputText [required]="true"
+                ngModel #login="ngModel" class="w-full" upperCase>
 
             </div>
 
@@ -33,12 +33,12 @@
 
 
             <div class="col-12">
-              <div class=" col-12 flex align-items-center justify-content-end mb-3">
+<!--               <div class=" col-12 flex align-items-center justify-content-end mb-3">
                 <a class="font-medium no-underline ml-2 text-right cursor-pointer" [routerLink]="['/forgot']">Esqueceu a
                   senha?</a>
-              </div>
+              </div> -->
               <button pButton pRipple label="Login" class="w-full text-xl" [disabled]="!formLogin.valid"
-                ></button>
+              (click)="logins(login.value, senha.value)"></button>
             </div>
 
           </form>

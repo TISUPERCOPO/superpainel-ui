@@ -9,6 +9,7 @@ import { Pedido } from 'src/app/core/models/pedidos.model';
 import { FiltrosPedido } from 'src/app/core/models/filtro.model';
 import { FiltroPedidoService } from 'src/app/core/filtro/filtro-pedido.service';
 import * as moment from 'moment';
+import { RelatorioService } from '../../relatorios/relatorio.service';
 
 @Component({
   selector: 'app-painelpedido-lista',
@@ -62,7 +63,8 @@ export class PainelpedidoListaComponent implements OnInit {
     private conf: PrimeNGConfig,
     private spinner: NgxSpinnerService,
     private filtroPedido: FiltroPedidoService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private relatorioService: RelatorioService
   ) { }
   ngOnInit(): void {
     //this.filtroDefault();
@@ -262,5 +264,13 @@ export class PainelpedidoListaComponent implements OnInit {
     this.carregarPedidos();
   }
 
+
+  gerarPedidos(ped: any) {
+    this.relatorioService.pedidos(ped.id.toString())
+      .then(relatorio => {
+        const url = window.URL.createObjectURL(relatorio);
+        window.open(url);
+      });
+  }
 
 }

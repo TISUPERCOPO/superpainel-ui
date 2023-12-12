@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../auth.service';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +20,11 @@ export class LoginComponent implements OnInit{
   dialogiOS: boolean;
   position: string;
 
+  messages: Message[] | undefined;
+
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private title: Title,
     private spinner: NgxSpinnerService,
@@ -32,10 +37,10 @@ export class LoginComponent implements OnInit{
   }
 
 
-/*
-  login(usuario: string, senha: string) {
+
+  logins(usuario: string, senha: string) {
     this.spinner.show();
-    this.
+    this.authService
       .login(usuario, senha)
       .then(() => {
         this.router.navigate(['/']);
@@ -48,20 +53,20 @@ export class LoginComponent implements OnInit{
         }, 2060);
 
         this.spinner.hide();
-        this.errorHandler.handle(erro);
+        //this.errorHandler.handle(erro);
       });
-  } */
+  }
 
 
-/*   addMessages(msg: string) {
+  addMessages(msg: string) {
     this.messages = [
       { severity: 'error', detail: `${msg}` }
     ];
-  } */
+  }
 
-/*   clearMessages() {
+  clearMessages() {
     this.messages = [];
-  } */
+  }
 
   EnterSubmit(event: any, form: NgForm, usuario: string, senha: string) {
     if (event.keyCode === 13) {

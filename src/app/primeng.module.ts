@@ -13,6 +13,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { AccordionModule } from 'primeng/accordion';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessagesModule } from 'primeng/messages';
+import { ToastModule } from 'primeng/toast';
 
 
 
@@ -31,7 +33,9 @@ import { InputTextModule } from 'primeng/inputtext';
     SidebarModule,
     AccordionModule,
     PasswordModule,
-    InputTextModule
+    InputTextModule,
+    MessagesModule,
+    MessagesModule,
   ]
 
 
